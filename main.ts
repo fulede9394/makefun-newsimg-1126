@@ -29,6 +29,9 @@ class Entry {
 
   async load() {
     const bytes = await readFile(this.source);
+    if (bytes.length === 0) {
+      throw new Error(`${CAPS.name} is empty`);
+    }
     const pngMagic = Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
     if (!bytes.subarray(0, 8).equals(pngMagic)) {
       throw new Error(`${CAPS.name} does not start with the PNG signature`);
